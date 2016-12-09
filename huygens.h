@@ -1,9 +1,8 @@
-/*******************************************************
- * Copyright (C) 2015 Antoine Toisoul <antoine.toisoul@telecom-paristech.org>
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Antoine Toisoul <antoine.toisoul@telecom-paristech.org>, November 2015
- *******************************************************/
+/**
+  * Practical acquisition and rendering of diffraction effects in surface reflectance.
+  * Antoine Toisoul, Abhijeet Ghosh.
+  * Imperial College London, December 2016.
+  */
 
 #ifndef HUYGENS_H
 #define HUYGENS_H
@@ -12,17 +11,12 @@
 #define EPSILON 0.000001
 
 #include "mathfunctions.h"
-#include "PFMReadWrite.h"
-
-/*---- Standard library ----*/
-#include <iostream>
-#include <cmath>
-#include <string>
 
 /*---- OpenCV ----*/
 #include <opencv2/core/core.hpp>
 #include <opencv/highgui.h>
 
+//openMP
 #include <omp.h>
 
 /**
@@ -38,11 +32,11 @@
  * @param lambdaMeasurement : wavelength at which the diffraction pattern was measured.
  * @param colorChannel : color channel on which the intensity of the Mat diffractionPattern will be read (0 is blue, 1 is green, 2 is red).
  * @param distanceLightSource : distance between the sample and the light source during the measurement.
- * @param spectralPowerDistribution :power spectral distribution of the spectrum of the light source.
+ * @param spectralPowerDistribution :  spectral power distribution of the light source.
  * @param widthTable : width of the final diffraction look up table.
  * @param heightTable : height of the final diffraction look up table.
  * @param power : use and odd power (e.g, 3.0, 5.0) for non linear sampling.
- * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380 780 nanometers.
+ * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380-780 nanometers.
  * @return the diffraction lookup table Sd.
  */
 cv::Mat computeDiffractionTable_Measurement2D(cv::Mat const &diffractionPattern, cv::Point2f const &center, float F0,

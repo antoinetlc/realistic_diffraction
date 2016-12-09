@@ -1,16 +1,14 @@
-/*******************************************************
- * Copyright (C) 2015 Antoine Toisoul <antoine.toisoul@telecom-paristech.org>
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Antoine Toisoul <antoine.toisoul@telecom-paristech.org>, November 2015
- *******************************************************/
+/**
+  * Practical acquisition and rendering of diffraction effects in surface reflectance.
+  * Antoine Toisoul, Abhijeet Ghosh.
+  * Imperial College London, December 2016.
+  */
 
 #ifndef MATHFUNCTIONS_H
 #define MATHFUNCTIONS_H
 
 #define M_PI 3.14159265358979323846
 
-#include <iostream>
 #include <cmath>
 #include <vector>
 

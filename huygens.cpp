@@ -1,9 +1,8 @@
-/*******************************************************
- * Copyright (C) 2015 Antoine Toisoul <antoine.toisoul@telecom-paristech.org>
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by Antoine Toisoul <antoine.toisoul@telecom-paristech.org>, November 2015
- *******************************************************/
+/**
+  * Practical acquisition and rendering of diffraction effects in surface reflectance.
+  * Antoine Toisoul, Abhijeet Ghosh.
+  * Imperial College London, December 2016.
+  */
 
 #include "huygens.h"
 
@@ -23,11 +22,11 @@ using namespace cv;
  * @param lambdaMeasurement : wavelength at which the diffraction pattern was measured.
  * @param colorChannel : color channel on which the intensity of the Mat diffractionPattern will be read (0 is blue, 1 is green, 2 is red).
  * @param distanceLightSource : distance between the sample and the light source during the measurement.
- * @param spectralPowerDistribution :power spectral distribution of the spectrum of the light source.
+ * @param spectralPowerDistribution :  spectral power distribution of the light source.
  * @param widthTable : width of the final diffraction look up table.
  * @param heightTable : height of the final diffraction look up table.
  * @param power : use and odd power (e.g, 3.0, 5.0) for non linear sampling.
- * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380 780 nanometers.
+ * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380-780 nanometers.
  * @return the diffraction lookup table Sd.
  */
 Mat computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f const &center, float F0,
@@ -88,7 +87,7 @@ Mat computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f
     float halfSizeX = (float)widthTable/2.0f;
     float halfSizeY = (float)heightTable/2.0f;
 
-    //For each values of v and u
+    //For each values (u,v) of the lookup table
     for(int v = 0 ; v<widthTable ; v++)
     {
         #pragma omp parallel for num_threads(omp_get_max_threads())
@@ -187,12 +186,13 @@ Mat computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f
         }//End for u
 
     //Integrate using the Trapezoidal rule
+    //0.005f micrometers is the sampling distance of the wavelengths (81 wavelengths between 380 and 780 nanometers).
     numericalIntegration_onLambda(2, integrand_forAllUVLambdaX, widthTable, heightTable, numberOfWavelengths, 0.005f, result);
     numericalIntegration_onLambda(1, integrand_forAllUVLambdaY, widthTable, heightTable, numberOfWavelengths, 0.005f, result);
     numericalIntegration_onLambda(0, integrand_forAllUVLambdaZ, widthTable, heightTable, numberOfWavelengths, 0.005f, result);
 
     //Convert XYZ to RGB
-    Mat RGB = XYZToRGB_sRGB(result);
+    Mat RGBTable = XYZToRGB_sRGB(result);
 
     //Free the memory
     for(int k = 0 ; k<numberOfWavelengths ; k++)
@@ -202,10 +202,10 @@ Mat computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f
         delete[] integrand_forAllUVLambdaZ[k];
     }
 
-    imshow("Diffraction lookup table", RGB);
+    imshow("Diffraction lookup table", RGBTable);
     waitKey(0);
 
-    return RGB;
+    return RGBTable;
 }
 
 /**
@@ -234,12 +234,12 @@ Mat XYZToRGB_sRGB(const Mat &imageXYZ)
             Y = imageXYZ.at<Vec3f>(i,j).val[1];
             Z = imageXYZ.at<Vec3f>(i,j).val[0];
 
-            //Calculate the RGB values for the wavelength from the XYZ
+            //Calculate the RGB value given the XYZ
             R = XYZToRGBmatrix[0][0]*X+XYZToRGBmatrix[0][1]*Y+XYZToRGBmatrix[0][2]*Z;
             G = XYZToRGBmatrix[1][0]*X+XYZToRGBmatrix[1][1]*Y+XYZToRGBmatrix[1][2]*Z;
             B = XYZToRGBmatrix[2][0]*X+XYZToRGBmatrix[2][1]*Y+XYZToRGBmatrix[2][2]*Z;
 
-
+            //Store the final value
             imageRGB.at<Vec3f>(i,j).val[2] = R;
             imageRGB.at<Vec3f>(i,j).val[1] = G;
             imageRGB.at<Vec3f>(i,j).val[0] = B;
