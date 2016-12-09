@@ -10,7 +10,27 @@
 using namespace std;
 using namespace cv;
 
-void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f const &center, float F0,
+/**
+ * Function to compute the diffraction look up table given the diffraction pattern measured with a spectral filter.
+ * @brief computeDiffractionTable_Measurement2D
+ * @param diffractionPattern : image of the diffraction pattern with the spectral filter.
+ * @param center : location of the specular lobe (order 0 of diffraction).
+ * @param F0 : Fresnel value at normal incidence of the sample.
+ * @param widthObjectCm : width in centimeters of the object.
+ * @param heightObjectCm : height in centimeters of the object.
+ * @param widthObjectPx : width in pixels of the object.
+ * @param heightObjectPx : height in pixels of the object.
+ * @param lambdaMeasurement : wavelength at which the diffraction pattern was measured.
+ * @param colorChannel : color channel on which the intensity of the Mat diffractionPattern will be read (0 is blue, 1 is green, 2 is red).
+ * @param distanceLightSource : distance between the sample and the light source during the measurement.
+ * @param spectralPowerDistribution :power spectral distribution of the spectrum of the light source.
+ * @param widthTable : width of the final diffraction look up table.
+ * @param heightTable : height of the final diffraction look up table.
+ * @param power : use and odd power (e.g, 3.0, 5.0) for non linear sampling.
+ * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380 780 nanometers.
+ * @return the diffraction lookup table Sd.
+ */
+Mat computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f const &center, float F0,
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,
@@ -65,8 +85,8 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
 
     /*--- Compute the look up table ---*/
     Mat result = Mat::zeros(widthTable,heightTable,CV_32FC3);
-    float halfSizeX = widthTable/2.0;
-    float halfSizeY = heightTable/2.0;
+    float halfSizeX = (float)widthTable/2.0f;
+    float halfSizeY = (float)heightTable/2.0f;
 
     //For each values of v and u
     for(int v = 0 ; v<widthTable ; v++)
@@ -78,11 +98,11 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
             for(int w = 0 ; w<numberOfWavelengths ; w++)
             {
                 //Current wavelength
-                float currentLambda = 0.38+0.005*w;
+                float currentLambda = 0.38f+0.005f*w;
 
                 //Current sines
-                float  sinX = 2.0*pow((v-halfSizeX)/(widthTable), power);
-                float  sinY = 2.0*pow((u-halfSizeY)/(heightTable), power);
+                float  sinX = 2.0f*pow((v-halfSizeX)/(widthTable), power);
+                float  sinY = 2.0f*pow((u-halfSizeY)/(heightTable), power);
 
                 //The sines are scaled depending on the wavelength (Equation 15 in the paper)
                 //For currentLambda = lambdaMeasurement the value of the current intensity is directly given by the measured diffraction pattern
@@ -139,8 +159,8 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
                     currentX += center.x;
                     currentY += center.y;
 
-                    lCurrentSinX = floor(currentX);
-                    kCurrentSinY = floor(currentY);
+                    lCurrentSinX = (int) floor(currentX);
+                    kCurrentSinY = (int) floor(currentY);
 
                     //Make sure we are inside the image
                     if(kCurrentSinY>=0 && lCurrentSinX>=0 && kCurrentSinY<diffractionPattern.rows && lCurrentSinX<diffractionPattern.cols)
@@ -156,7 +176,7 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
                 float spectralPower =  spectralPowerDistribution[w];
 
                 //Normalisation factor due to the measurement at normal incidence (equation 15 paper)
-                float normalizationFactor = pow(lambdaMeasurement/currentLambda,2.0)/(4.0*M_PI*M_PI*F0*F0);
+                float normalizationFactor = (float) pow(lambdaMeasurement/currentLambda,2.0)/(4.0f*M_PI*M_PI*F0*F0);
 
                 //Store the 3 values of the integrand
                 integrand_forAllUVLambdaX[w][u*widthTable+v] = normalizationFactor*intensity*spectralPower*cie_colour_matching_function[w][0];
@@ -167,13 +187,12 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
         }//End for u
 
     //Integrate using the Trapezoidal rule
-    numericalIntegration_onLambda(2, integrand_forAllUVLambdaX, widthTable, heightTable, numberOfWavelengths, 0.005, result);
-    numericalIntegration_onLambda(1, integrand_forAllUVLambdaY, widthTable, heightTable, numberOfWavelengths, 0.005, result);
-    numericalIntegration_onLambda(0, integrand_forAllUVLambdaZ, widthTable, heightTable, numberOfWavelengths, 0.005, result);
+    numericalIntegration_onLambda(2, integrand_forAllUVLambdaX, widthTable, heightTable, numberOfWavelengths, 0.005f, result);
+    numericalIntegration_onLambda(1, integrand_forAllUVLambdaY, widthTable, heightTable, numberOfWavelengths, 0.005f, result);
+    numericalIntegration_onLambda(0, integrand_forAllUVLambdaZ, widthTable, heightTable, numberOfWavelengths, 0.005f, result);
 
     //Convert XYZ to RGB
     Mat RGB = XYZToRGB_sRGB(result);
-    savePFM(RGB, qApp->applicationDirPath().toStdString()+ "diffractionTable.pfm");
 
     //Free the memory
     for(int k = 0 ; k<numberOfWavelengths ; k++)
@@ -182,11 +201,22 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
         delete[] integrand_forAllUVLambdaY[k];
         delete[] integrand_forAllUVLambdaZ[k];
     }
+
+    imshow("Diffraction lookup table", RGB);
+    waitKey(0);
+
+    return RGB;
 }
 
+/**
+ * Converts from XYZ to RGB assuming the sRGB color system.
+ * @brief XYZToRGB_sRGB
+ * @param imageXYZ
+ * @return
+ */
 Mat XYZToRGB_sRGB(const Mat &imageXYZ)
 {
-    //Computation for the sRGB system
+    //XYZ to RGB matrix for the sRGB system
     float XYZToRGBmatrix[3][3] = {{3.2404542, -1.5371385, -0.4985314}, {-0.9692660, 1.8760108, 0.0415560}, {0.0556434 , -0.2040259, 1.0572252}};
 
     Mat imageRGB = imageXYZ.clone();

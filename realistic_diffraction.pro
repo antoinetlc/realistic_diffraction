@@ -11,13 +11,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     huygens.cpp \
-    spectrum.cpp \
     mathfunctions.cpp \
     PFMReadWrite.cpp
 
 
 HEADERS  += huygens.h \
-    spectrum.h \
     mathfunctions.h \
     PFMReadWrite.h
 

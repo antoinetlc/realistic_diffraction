@@ -5,8 +5,8 @@
  * Written by Antoine Toisoul <antoine.toisoul@telecom-paristech.org>, November 2015
  *******************************************************/
 
-#ifndef MATHFUNCTIONS
-#define MATHFUNCTIONS
+#ifndef MATHFUNCTIONS_H
+#define MATHFUNCTIONS_H
 
 #define M_PI 3.14159265358979323846
 
@@ -19,8 +19,19 @@
 
 #include <omp.h>
 
+/**
+ * Numerical integration on the wavelength using the trapezoidal rule.
+ * @brief numericalIntegration_onLambda
+ * @param colorChannel
+ * @param integrand_forAllUVLambda
+ * @param width
+ * @param height
+ * @param numberOfWavelengths
+ * @param samplingDistanceWavelength
+ * @param integrationResult
+ */
 void numericalIntegration_onLambda(int colorChannel, std::vector<float *> &integrand_forAllUVLambda, int width, int height,
                                    int numberOfWavelengths, float samplingDistanceWavelength, cv::Mat& integrationResult);
 
-#endif // MATHFUNCTIONS
+#endif // MATHFUNCTIONS_H
 

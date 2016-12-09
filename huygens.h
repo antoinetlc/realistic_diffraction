@@ -5,14 +5,13 @@
  * Written by Antoine Toisoul <antoine.toisoul@telecom-paristech.org>, November 2015
  *******************************************************/
 
-#ifndef DIFFRACTIONSHADERS_H
-#define DIFFRACTIONSHADERS_H
+#ifndef HUYGENS_H
+#define HUYGENS_H
 
 #define M_PI 3.14159265358979323846
 #define EPSILON 0.000001
 
 #include "mathfunctions.h"
-#include "spectrum.h"
 #include "PFMReadWrite.h"
 
 /*---- Standard library ----*/
@@ -44,14 +43,21 @@
  * @param heightTable : height of the final diffraction look up table.
  * @param power : use and odd power (e.g, 3.0, 5.0) for non linear sampling.
  * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380 780 nanometers.
+ * @return the diffraction lookup table Sd.
  */
-void computeDiffractionTable_Measurement2D(cv::Mat const &diffractionPattern, cv::Point2f const &center, float F0,
+cv::Mat computeDiffractionTable_Measurement2D(cv::Mat const &diffractionPattern, cv::Point2f const &center, float F0,
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,
-                                           vector<float> &spectralPowerDistribution, int widthTable, int heightTable, float power = 1.0, int numberOfWavelengths = 81);
+                                           std::vector<float> &spectralPowerDistribution, int widthTable, int heightTable, float power = 1.0, int numberOfWavelengths = 81);
 
 
+/**
+ * Converts from XYZ to RGB assuming the sRGB color system.
+ * @brief XYZToRGB_sRGB
+ * @param imageXYZ
+ * @return
+ */
 cv::Mat XYZToRGB_sRGB(const cv::Mat &imageXYZ);
 
 //Values for the CIE colour matching functions sampled ever 5 nanometers
@@ -85,4 +91,4 @@ static float cie_colour_matching_function[81][3] = {
        {(float) 0.0001,(float) 0.0000,(float) 0.0000}, {(float) 0.0001,(float) 0.0000,(float) 0.0000}, {(float) 0.0000,(float) 0.0000,(float) 0.0000}
 };
 
-#endif
+#endif //HUYGENS_H
