@@ -176,7 +176,7 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
 
     //Convert XYZ to RGB
     Mat RGB = XYZToRGB_sRGB(result);
-    savePFM(result, qApp->applicationDirPath().toStdString()+ "diffractionTable.pfm");
+    savePFM(RGB, qApp->applicationDirPath().toStdString()+ "diffractionTable.pfm");
 
     //Free the memory
     for(int k = 0 ; k<numberOfWavelengths ; k++)

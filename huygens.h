@@ -29,27 +29,27 @@
 /**
  * Function to compute the diffraction look up table given the diffraction pattern measured with a spectral filter.
  * @brief computeDiffractionTable_Measurement2D
- * @param diffractionPattern
- * @param center
- * @param F0
- * @param widthObjectCm
- * @param heightObjectCm
- * @param widthObjectPx
- * @param heightObjectPx
- * @param lambdaMeasurement
- * @param colorChannel
- * @param distanceLightSource
- * @param spectrumName
- * @param widthTable
- * @param heightTable
- * @param power
- * @param numberOfWavelengths
+ * @param diffractionPattern : image of the diffraction pattern with the spectral filter.
+ * @param center : location of the specular lobe (order 0 of diffraction).
+ * @param F0 : Fresnel value at normal incidence of the sample.
+ * @param widthObjectCm : width in centimeters of the object.
+ * @param heightObjectCm : height in centimeters of the object.
+ * @param widthObjectPx : width in pixels of the object.
+ * @param heightObjectPx : height in pixels of the object.
+ * @param lambdaMeasurement : wavelength at which the diffraction pattern was measured.
+ * @param colorChannel : color channel on which the intensity of the Mat diffractionPattern will be read (0 is blue, 1 is green, 2 is red).
+ * @param distanceLightSource : distance between the sample and the light source during the measurement.
+ * @param spectrumName : name of the spectrum that will be loaded (full white by default).
+ * @param widthTable : width of the final diffraction look up table.
+ * @param heightTable : height of the final diffraction look up table.
+ * @param power : use and odd power (e.g, 3.0, 5.0) for non linear sampling.
+ * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380 780 nanometers.
  */
 void computeDiffractionTable_Measurement2D(cv::Mat const &diffractionPattern, cv::Point2f const &center, float F0,
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,
-                                           std::string spectrumName, int widthTable, int heightTable, float power, int numberOfWavelengths = 81);
+                                           std::string spectrumName, int widthTable, int heightTable, float power = 1.0, int numberOfWavelengths = 81);
 
 
 cv::Mat XYZToRGB_sRGB(const cv::Mat &imageXYZ);
