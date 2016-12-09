@@ -34,9 +34,11 @@ int main(int argc, char *argv[])
 
    string path = string("/PhoneLG/lg_pattern");
 
+   vector<float> spectralPowerDistribution(81, 1.0);
+
    Mat diffractionPattern = loadPFM(qApp->applicationDirPath().toStdString() + path + ".pfm");
    computeDiffractionTable_Measurement2D(diffractionPattern, center, 0.04, widthObjectCm, heightObjectCm, widthObjectPx, heightObjectPx,
-                                         lambdaMeasurement, colorChannel, L, string("fullWhite"), 1024, 1024, 5.0, 81);
+                                         lambdaMeasurement, colorChannel, L, spectralPowerDistribution, 1024, 1024, 5.0, 81);
 
     return 0;
 }

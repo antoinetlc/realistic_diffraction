@@ -39,7 +39,7 @@
  * @param lambdaMeasurement : wavelength at which the diffraction pattern was measured.
  * @param colorChannel : color channel on which the intensity of the Mat diffractionPattern will be read (0 is blue, 1 is green, 2 is red).
  * @param distanceLightSource : distance between the sample and the light source during the measurement.
- * @param spectrumName : name of the spectrum that will be loaded (full white by default).
+ * @param spectralPowerDistribution :power spectral distribution of the spectrum of the light source.
  * @param widthTable : width of the final diffraction look up table.
  * @param heightTable : height of the final diffraction look up table.
  * @param power : use and odd power (e.g, 3.0, 5.0) for non linear sampling.
@@ -49,7 +49,7 @@ void computeDiffractionTable_Measurement2D(cv::Mat const &diffractionPattern, cv
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,
-                                           std::string spectrumName, int widthTable, int heightTable, float power = 1.0, int numberOfWavelengths = 81);
+                                           vector<float> &spectralPowerDistribution, int widthTable, int heightTable, float power = 1.0, int numberOfWavelengths = 81);
 
 
 cv::Mat XYZToRGB_sRGB(const cv::Mat &imageXYZ);

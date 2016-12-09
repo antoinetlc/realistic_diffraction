@@ -14,7 +14,7 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,
-                                           string spectrumName, int widthTable, int heightTable, float power, int numberOfWavelengths)
+                                           vector<float> &spectralPowerDistribution, int widthTable, int heightTable, float power, int numberOfWavelengths)
 {
     /*--- Initialisation ---*/
     //integrand_forAllUVLambdaX/Y/Z contains the value of the integrand for all (u,v,lambda).
@@ -30,9 +30,6 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
         integrand_forAllUVLambdaY[k] = new float[widthTable*heightTable];
         integrand_forAllUVLambdaZ[k] = new float[widthTable*heightTable];
     }
-
-    //Load the spectrum
-    Spectrum spectrum(spectrumName);
 
     //Compute the extreme values of sines in the X and Y directions (Sines at each corner of the image)
     //This will be used later to avoid computing the table outside the range of the measured diffraction pattern
@@ -156,7 +153,7 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
                      intensity = 0.0;
                 }
 
-                float spectralPower =  spectrum.getSpectralPowerDistribution(w);
+                float spectralPower =  spectralPowerDistribution[w];
 
                 //Normalisation factor due to the measurement at normal incidence (equation 15 paper)
                 float normalizationFactor = pow(lambdaMeasurement/currentLambda,2.0)/(4.0*M_PI*M_PI*F0*F0);
