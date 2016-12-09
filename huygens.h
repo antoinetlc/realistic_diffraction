@@ -49,8 +49,8 @@ cv::Mat computeDiffractionTable_Measurement2D(cv::Mat const &diffractionPattern,
 /**
  * Converts from XYZ to RGB assuming the sRGB color system.
  * @brief XYZToRGB_sRGB
- * @param imageXYZ
- * @return
+ * @param imageXYZ : Image in XYZ space.
+ * @return : image converted to RGB.
  */
 cv::Mat XYZToRGB_sRGB(const cv::Mat &imageXYZ);
 
