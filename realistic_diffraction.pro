@@ -10,16 +10,13 @@ TEMPLATE = app
 #QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
 
 SOURCES += main.cpp \
-    coloursystem.cpp \
     huygens.cpp \
     spectrum.cpp \
     mathfunctions.cpp \
     PFMReadWrite.cpp
 
 
-HEADERS  += \
-    coloursystem.h \
-    huygens.h \
+HEADERS  += huygens.h \
     spectrum.h \
     mathfunctions.h \
     PFMReadWrite.h

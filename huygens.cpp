@@ -7,11 +7,14 @@
 
 #include "huygens.h"
 
+using namespace std;
+using namespace cv;
+
 void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f const &center, float F0,
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,
-                                           string spectrumName, int widthTable, int heightTable, int numberOfWavelengths, float power)
+                                           string spectrumName, int widthTable, int heightTable, float power, int numberOfWavelengths)
 {
     /*--- Initialisation ---*/
     //integrand_forAllUVLambdaX/Y/Z contains the value of the integrand for all (u,v,lambda).
@@ -167,14 +170,13 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
         }//End for u
 
     //Integrate using the Trapezoidal rule
-    numericalIntegration_onLambda(2, integrand_forAllUVLambdaX, widthTable, numberOfWavelengths, 0.005, result);
-    numericalIntegration_onLambda(1, integrand_forAllUVLambdaY, widthTable, numberOfWavelengths, 0.005, result);
-    numericalIntegration_onLambda(0, integrand_forAllUVLambdaZ, widthTable, numberOfWavelengths, 0.005, result);
+    numericalIntegration_onLambda(2, integrand_forAllUVLambdaX, widthTable, heightTable, numberOfWavelengths, 0.005, result);
+    numericalIntegration_onLambda(1, integrand_forAllUVLambdaY, widthTable, heightTable, numberOfWavelengths, 0.005, result);
+    numericalIntegration_onLambda(0, integrand_forAllUVLambdaZ, widthTable, heightTable, numberOfWavelengths, 0.005, result);
 
     //Convert XYZ to RGB
-    ColourSystem cs("sRGB");
-    Mat RGB = cs.XYZToRGB(result);
-    savePFM(RGB, qApp->applicationDirPath().toStdString()+ "diffractionTable.pfm");
+    Mat RGB = XYZToRGB_sRGB(result);
+    savePFM(result, qApp->applicationDirPath().toStdString()+ "diffractionTable.pfm");
 
     //Free the memory
     for(int k = 0 ; k<numberOfWavelengths ; k++)
@@ -183,4 +185,39 @@ void computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2
         delete[] integrand_forAllUVLambdaY[k];
         delete[] integrand_forAllUVLambdaZ[k];
     }
+}
+
+Mat XYZToRGB_sRGB(const Mat &imageXYZ)
+{
+    //Computation for the sRGB system
+    float XYZToRGBmatrix[3][3] = {{3.2404542, -1.5371385, -0.4985314}, {-0.9692660, 1.8760108, 0.0415560}, {0.0556434 , -0.2040259, 1.0572252}};
+
+    Mat imageRGB = imageXYZ.clone();
+    imageRGB.convertTo(imageRGB, CV_32FC3);
+
+    float X = 0.0, Y = 0.0, Z = 0.0;
+    float R = 0.0, G = 0.0, B = 0.0;
+
+    for(int i = 0 ; i< imageXYZ.rows ; i++)
+    {
+        for(int j = 0 ; j< imageXYZ.cols ; j++)
+        {
+            //XYZ = RGB (BGR in openCV)
+            X = imageXYZ.at<Vec3f>(i,j).val[2];
+            Y = imageXYZ.at<Vec3f>(i,j).val[1];
+            Z = imageXYZ.at<Vec3f>(i,j).val[0];
+
+            //Calculate the RGB values for the wavelength from the XYZ
+            R = XYZToRGBmatrix[0][0]*X+XYZToRGBmatrix[0][1]*Y+XYZToRGBmatrix[0][2]*Z;
+            G = XYZToRGBmatrix[1][0]*X+XYZToRGBmatrix[1][1]*Y+XYZToRGBmatrix[1][2]*Z;
+            B = XYZToRGBmatrix[2][0]*X+XYZToRGBmatrix[2][1]*Y+XYZToRGBmatrix[2][2]*Z;
+
+
+            imageRGB.at<Vec3f>(i,j).val[2] = R;
+            imageRGB.at<Vec3f>(i,j).val[1] = G;
+            imageRGB.at<Vec3f>(i,j).val[0] = B;
+        }
+    }
+
+    return imageRGB;
 }

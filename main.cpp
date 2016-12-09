@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 
    Mat diffractionPattern = loadPFM(qApp->applicationDirPath().toStdString() + path + ".pfm");
    computeDiffractionTable_Measurement2D(diffractionPattern, center, 0.04, widthObjectCm, heightObjectCm, widthObjectPx, heightObjectPx,
-                                         lambdaMeasurement, colorChannel, L, string("fullWhite"), 1024, 1024, 81, 5.0);
+                                         lambdaMeasurement, colorChannel, L, string("fullWhite"), 1024, 1024, 5.0, 81);
 
     return 0;
 }
