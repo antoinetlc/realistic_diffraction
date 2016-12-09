@@ -15,7 +15,6 @@
 using namespace std;
 using namespace cv;
 
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -49,7 +48,7 @@ int main(int argc, char *argv[])
     //Fresnel at normal incidence
     float F0 = 0.04;
 
-    computeDiffractionTable_Measurement2D(diffractionPattern, center, F0, widthObjectCm, heightObjectCm, widthObjectPx, heightObjectPx,
+    computeDiffractionTableFromSpectralMeasurement(diffractionPattern, center, F0, widthObjectCm, heightObjectCm, widthObjectPx, heightObjectPx,
                                          lambdaMeasurement, colorChannel, distanceLightSourceCm, spectralPowerDistribution, 1024, 1024, 5.0, 81);
 
     return 0;

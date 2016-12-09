@@ -21,7 +21,7 @@
 
 /**
  * Function to compute the diffraction look up table given the diffraction pattern measured with a spectral filter.
- * @brief computeDiffractionTable_Measurement2D
+ * @brief computeDiffractionTableFromSpectralMeasurement
  * @param diffractionPattern : image of the diffraction pattern with the spectral filter.
  * @param center : location of the specular lobe (order 0 of diffraction).
  * @param F0 : Fresnel value at normal incidence of the sample.
@@ -39,7 +39,7 @@
  * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380-780 nanometers.
  * @return the diffraction lookup table Sd.
  */
-cv::Mat computeDiffractionTable_Measurement2D(cv::Mat const &diffractionPattern, cv::Point2f const &center, float F0,
+cv::Mat computeDiffractionTableFromSpectralMeasurement(cv::Mat const &diffractionPattern, cv::Point2f const &center, float F0,
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,

@@ -11,7 +11,7 @@ using namespace cv;
 
 /**
  * Function to compute the diffraction look up table given the diffraction pattern measured with a spectral filter.
- * @brief computeDiffractionTable_Measurement2D
+ * @brief computeDiffractionTableFromSpectralMeasurement
  * @param diffractionPattern : image of the diffraction pattern with the spectral filter.
  * @param center : location of the specular lobe (order 0 of diffraction).
  * @param F0 : Fresnel value at normal incidence of the sample.
@@ -29,7 +29,7 @@ using namespace cv;
  * @param numberOfWavelengths : Number of wavelengths used in the sampling. Note the the CIE color matching functions are given every 5 nanometers which corresponds to 81 wavelengths in the range 380-780 nanometers.
  * @return the diffraction lookup table Sd.
  */
-Mat computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f const &center, float F0,
+Mat computeDiffractionTableFromSpectralMeasurement(Mat const &diffractionPattern, Point2f const &center, float F0,
                                            float widthObjectCm, float heightObjectCm, float widthObjectPx, float heightObjectPx,
                                            float lambdaMeasurement, int colorChannel,
                                            float distanceLightSource,
@@ -211,8 +211,8 @@ Mat computeDiffractionTable_Measurement2D(Mat const &diffractionPattern, Point2f
 /**
  * Converts from XYZ to RGB assuming the sRGB color system.
  * @brief XYZToRGB_sRGB
- * @param imageXYZ
- * @return
+ * @param imageXYZ : Image in XYZ space.
+ * @return : image converted to RGB.
  */
 Mat XYZToRGB_sRGB(const Mat &imageXYZ)
 {
