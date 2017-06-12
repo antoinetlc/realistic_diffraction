@@ -3,7 +3,6 @@
   * Antoine Toisoul, Abhijeet Ghosh.
   * Imperial College London, December 2016.
   */
-#include <QApplication>
 
 #include <iostream>
 #include <math.h>
@@ -17,12 +16,10 @@ using namespace cv;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-
     //Exemple of usage
     //Load a HDR diffraction pattern captured with a spectral filter
-    string path = string("/PhoneLG/lg_pattern");
-    Mat diffractionPattern = loadPFM(qApp->applicationDirPath().toStdString() + path + ".pfm");
+    string path = string("path/to/pattern.pfm");
+    Mat diffractionPattern = loadPFM(path);
 
     //Pattern measured with green spectral filter.
     float lambdaMeasurement = 0.53;
@@ -48,6 +45,7 @@ int main(int argc, char *argv[])
     //Fresnel at normal incidence
     float F0 = 0.04;
 
+    //Compute and display the table
     computeDiffractionTableFromSpectralMeasurement(diffractionPattern, center, F0, widthObjectCm, heightObjectCm, widthObjectPx, heightObjectPx,
                                          lambdaMeasurement, colorChannel, distanceLightSourceCm, spectralPowerDistribution, 1024, 1024, 5.0, 81);
 

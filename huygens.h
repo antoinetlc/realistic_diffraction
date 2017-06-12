@@ -10,7 +10,7 @@
 #define M_PI 3.14159265358979323846
 #define EPSILON 0.000001
 
-#include "mathfunctions.h"
+#include "integration.h"
 
 /*---- OpenCV ----*/
 #include <opencv2/core/core.hpp>
