@@ -157,13 +157,3 @@ INCLUDEPATH += C:\Libraries\dlib-18.16
 else:unix{
 
 }
-
-##################### OpenCV  WINDOWS MINGW 32 bits ##############################
-
-#INCLUDEPATH += C:\OpenCV-mingw\install\include
-#LIBS += -LC:\OpenCV-mingw\install\x64\mingw\bin \
-#    libopencv_core2411 \
-#    libopencv_highgui2411 \
-#    libopencv_imgproc2411 \
-#    libopencv_features2d2411 \
-#    libopencv_calib3d2411
