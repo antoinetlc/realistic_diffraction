@@ -17,7 +17,7 @@ An example of how to compute a diffraction lookup table is given in main.cpp. Th
 Please cite the following paper when using Realistic Diffraction :
 
     Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. 
-    Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017.
+    Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics,36(5), 2017.
 
 #### Credits and License
 
