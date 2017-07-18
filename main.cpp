@@ -10,6 +10,7 @@
 
 #include "PFMReadWrite.h"
 #include "huygens.h"
+#include "convolution.h"
 
 using namespace std;
 using namespace cv;
@@ -48,6 +49,13 @@ int main(int argc, char *argv[])
     //Compute and display the table
     computeDiffractionTableFromSpectralMeasurement(diffractionPattern, center, F0, widthObjectCm, heightObjectCm, widthObjectPx, heightObjectPx,
                                          lambdaMeasurement, colorChannel, distanceLightSourceCm, spectralPowerDistribution, 1024, 1024, 5.0, 81);
+
+    //Preconvolution of Environment map
+    //The diffraction lookup table must be in RGB and sampled linearly
+    Mat diffractionPattern = loadPFM("/path/to/diffractionPattern.pfm");
+
+    Mat environmentMap = loadPFM("/path/to/environemntMap.pfm");
+    Mat filteredEM = convolveEnvironmentMap(em, diffractionPattern, 1.0, 1.0);
 
     return 0;
 }

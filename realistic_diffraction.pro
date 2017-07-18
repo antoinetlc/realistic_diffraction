@@ -7,12 +7,16 @@ TEMPLATE = app
 SOURCES += main.cpp \
     huygens.cpp \
     PFMReadWrite.cpp \
-    integration.cpp
+    integration.cpp \
+    convolution.cpp \
+    coordinates.cpp
 
 
 HEADERS  += huygens.h \
     PFMReadWrite.h \
-    integration.h
+    integration.h \
+    convolution.h \
+    coordinates.h
 
 ##################### OpenCV   ##############################
 
