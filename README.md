@@ -4,7 +4,9 @@ Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectanc
 
 #### Description
 
-Realistic diffraction is an implementation of the paper Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017. It allows the computation of diffraction lookup tables that can be used for real-time rendering of diffraction effects given the HDR photograph of a diffraction pattern measured with a spectral filter. The software requires OpenCV to work with images. It has been tested with OpenCV 2.4.11.
+Realistic diffraction is an implementation of the paper *Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017.* It allows the computation of diffraction lookup tables that can be used for real-time rendering of diffraction effects given the HDR photograph of a diffraction pattern measured with a spectral filter. The software requires OpenCV and has been tested with OpenCV 2.4.11.
+
+A video of the renderings is available [here](https://www.youtube.com/watch?v=DNOej4KgtJY)
 
 #### Usage
 
@@ -15,7 +17,7 @@ An example of how to compute a diffraction lookup table is given in main.cpp. Th
 Please cite the following paper when using Realistic Diffraction :
 
     Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. 
-    Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017.
+    Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics,36(5), 2017.
 
 #### Credits and License
 
@@ -25,3 +27,4 @@ Realistic Diffraction is free software: you can redistribute it and/or modify it
 
 #### Contact
 
+Antoine Toisoul : antoine.toisoul 'AT' telecom-paristech.org
