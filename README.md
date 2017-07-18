@@ -6,8 +6,8 @@ Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectanc
 
 Realistic diffraction is an implementation of the paper *Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017.* 
 It allows : 
-* the computation of diffraction lookup tables that can be used for real-time rendering of diffraction effects given the HDR photograph of a diffraction pattern measured with a spectral filter. 
-* The prefiltering of an environment map with a diffraction pattern for real-time rendering of diffraction effects in arbitrary environments
+* the computation of diffraction lookup tables given the HDR photograph of a diffraction pattern measured with a spectral filter
+* the prefiltering of an environment map with a diffraction lookup table for real-time rendering of diffraction effects in arbitrary environments
 
 The software requires OpenCV and has been tested with OpenCV 2.4.11.
 
