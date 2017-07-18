@@ -4,13 +4,18 @@ Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectanc
 
 #### Description
 
-Realistic diffraction is an implementation of the paper *Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017.* It allows the computation of diffraction lookup tables that can be used for real-time rendering of diffraction effects given the HDR photograph of a diffraction pattern measured with a spectral filter. The software requires OpenCV and has been tested with OpenCV 2.4.11.
+Realistic diffraction is an implementation of the paper *Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017.* 
+It allows : 
+* the computation of diffraction lookup tables that can be used for real-time rendering of diffraction effects given the HDR photograph of a diffraction pattern measured with a spectral filter. 
+* The prefiltering of an environment map with a diffraction pattern for real-time rendering of diffraction effects in arbitrary environments
+
+The software requires OpenCV and has been tested with OpenCV 2.4.11.
 
 A video of the renderings is available [here](https://www.youtube.com/watch?v=DNOej4KgtJY)
 
 #### Usage
 
-An example of how to compute a diffraction lookup table is given in main.cpp. The function that computes the lookup table is given in huygens.cpp.
+An example of how to compute a diffraction lookup table and the convolution are given in `main.cpp`. The function that computes the lookup table is given in `huygens.cpp`. The function that computes the prefiltering is given in `convolution.cpp`.
 
 #### Citation
 
