@@ -2,6 +2,9 @@
 
 Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017 (presentation at SIGGRAPH 2017).
 
+
+[![[SIGGRAPH 2017] - Practical acquisition and rendering of diffraction effects in surface reflectance](https://img.youtube.com/vi/DNOej4KgtJY/0.jpg)](https://www.youtube.com/watch?v=DNOej4KgtJY)
+
 #### Description
 
 Realistic diffraction is an implementation of the paper *Practical Acquisition and Rendering of Diffraction Effects in Surface Reflectance. Antoine Toisoul and Abhijeet Ghosh. ACM Transactions on Graphics, 2017.* 
