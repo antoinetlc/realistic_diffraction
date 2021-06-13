@@ -20,6 +20,18 @@ A video of the renderings is available [here](https://www.youtube.com/watch?v=DN
 
 An example of how to compute a diffraction lookup table and the convolution are given in `main.cpp`. The function that computes the lookup table is given in `huygens.cpp`. The function that computes the prefiltering is given in `convolution.cpp`.
 
+A few spectral measurements of diffraction patterns are provided in the `data` folder. Please adjust, the variables as follows depending on the spectral filter employed.
+
+For the red spectral filter (`Bragg.pfm`, `TV.pfm`, `holographic_paper.pfm`) please use :
+
+* `float lambdaMeasurement = 0.65;`
+* `float colorChannel = 2;`    
+    
+For the green spectral filter (`HTC.pfm`, `LG.pfm`) please use :
+
+* `float lambdaMeasurement = 0.53;`
+* `float colorChannel = 1;`
+
 #### Citation
 
 Please cite the following paper when using Realistic Diffraction :
